@@ -1,5 +1,6 @@
 package com.example.bai_1.controller;
 
+import com.example.bai_1.service.CaculateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,22 +16,32 @@ import java.text.DecimalFormat;
 @RequestMapping("/caculate")
 public class CaculateController {
     @Autowired
-    private CaculateController caculateController;
+    private CaculateService caculateService;
     @GetMapping("")
     public String form(){
         return "caculate";
     }
     @PostMapping("/result")
-    public String convertCurrency ( @RequestParam("amount") double amount, Model model){
+    public String convert( @RequestParam("amount") String amountStr, Model model){
         double rate = 24000;
-        double result = rate * amount;
-        DecimalFormat df = new DecimalFormat("#,###.##");
-        String formattedResult = df.format(result);
+        boolean isNumber = caculateService.isNumber(amountStr);
+        if(!isNumber){
+            model.addAttribute("error", "Amount must be a number");
+            return "caculate";
+        }
 
-        model.addAttribute("result", formattedResult);
-        model.addAttribute("rate", rate);
-        model.addAttribute("amount", amount);
-        return "result";
+        double amount = Double.parseDouble(amountStr);
+        boolean isPositive = caculateService.isPositive(amount);
+        if(!isPositive){
+            model.addAttribute("error", "Amount have to greater than 0");
+            return "caculate";
+        }
+            String result = caculateService.convert(amount, rate);
+            model.addAttribute("result", result);
+            model.addAttribute("rate", rate);
+            model.addAttribute("amount", amount);
+            return "result";
+
     }
 
 }
