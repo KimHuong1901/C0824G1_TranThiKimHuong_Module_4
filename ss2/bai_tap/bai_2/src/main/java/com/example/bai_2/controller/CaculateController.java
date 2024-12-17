@@ -4,6 +4,7 @@ import com.example.bai_2.service.CaculateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -16,26 +17,21 @@ public class CaculateController  {
                            @RequestParam(required = false, defaultValue = "0") Double num2,
                            @RequestParam(required = false, defaultValue = "add") String opera,
                            Model model){
-       if (  num2 == 0 && opera.equals("div")) {
-           model.addAttribute("error", "Cannot divide by zero. Please enter other number");
-           return "caculate";
-       }
-       double result = 0;
-       switch(opera){
-           case "add":
-               result = caculateService.add(num1, num2);
-               break;
-           case "sub":
-               result = caculateService.sub(num1, num2);
-               break;
-           case "multi":
-               result = caculateService.multi(num1, num2);
-               break;
-           case "div":
-               result = caculateService.div(num1, num2);
-               break;
-       }
+       double result = caculateService.caculate(num1, num2, opera);
+       model.addAttribute("num1", num1);
+       model.addAttribute("num2", num2);
+       model.addAttribute("opera", opera);
        model.addAttribute("result", result);
+       return "caculate";
+   }
+   @ExceptionHandler(IllegalArgumentException.class)
+    public String handleIllegalArgumentException(IllegalArgumentException ex, Model model){
+       model.addAttribute("error", "Please enter the number");
+       return "caculate";
+   }
+   @ExceptionHandler(ArithmeticException.class)
+    public String handleArithmeticException(ArithmeticException ex, Model model){
+       model.addAttribute("error", ex.getMessage());
        return "caculate";
    }
 }

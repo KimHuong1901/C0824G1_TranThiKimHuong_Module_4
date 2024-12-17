@@ -8,8 +8,8 @@
 <body>
 <h2>Caculator</h2>
 <form action="caculate" method="get">
-  <input type="number" id="num1" name="num1">
-  <input type="number" id="num2" name="num2">
+  <input type="text" id="num1" name="num1">
+  <input type="text" id="num2" name="num2">
   <br>
   <button type="submit" id="add" value="add" name = "opera">Addition(+)</button>
   <button type="submit" id="sub" value="sub" name = "opera">Subtraction(-)</button>
