@@ -54,6 +54,7 @@
 <div th:replace="fragment :: modal-confirm-update"></div>
 <div th:replace="fragment :: modal-update"></div>
 <div th:replace="fragment :: modal-create"></div>
+<div th:replace="fragment :: modal-deatil"></div>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 <script>
     function deleteModal(element) {
@@ -69,16 +70,19 @@
     function updateModal(element) {
         let productId = element.getAttribute("data-id");
         document.getElementById("updateProductModalLabel").innerText = "Update Product ID: " + productId;
-
-        // Lấy liên kết cập nhật và thêm vào form action
         let updateLink = "/update/" + productId;
         let form = document.querySelector('#updateProductModal form');
         form.setAttribute("action", updateLink);
 
-        // Hiển thị modal
         let myModal = new bootstrap.Modal(document.getElementById('updateProductModal'));
         myModal.show();
     }
 </script>
+<div th:if="${message != null}">
+    <p style="color:green;" th:text="${message}"></p>
+</div>
+<div th:if="${error != null}">
+    <p style="color:red;" text="'Result: ' + ${error}"></p>
+</div>
 </body>
 </html>

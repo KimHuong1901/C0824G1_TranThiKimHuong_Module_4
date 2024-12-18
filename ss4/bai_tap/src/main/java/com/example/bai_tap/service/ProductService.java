@@ -11,6 +11,7 @@ import java.util.List;
 public class ProductService implements IProductService {
     @Autowired
     private ProductRepository productRepository;
+
     @Override
     public List<Product> getAllProducts() {
         return productRepository.getAllProducts();
@@ -18,27 +19,32 @@ public class ProductService implements IProductService {
 
     @Override
     public void addProduct(Product product) {
-         productRepository.addProduct(product);
+        checkValue(product);
+        productRepository.addProduct(product);
     }
 
     @Override
     public boolean deleteProduct(int id) {
-        if(productRepository.deleteProduct(id)){
-            return true;
-        }
-            return false;
+        return productRepository.deleteProduct(id);
     }
 
     @Override
     public boolean updateProduct(Product product) {
-        if(productRepository.updateProduct(product)){
-            return true;
-        }
-        return false;
+        checkValue(product);
+        return productRepository.updateProduct(product);
     }
 
     @Override
     public Product getProduct(int id) {
         return productRepository.getProductById(id);
+    }
+
+    public void checkValue(Product product) {
+        if (product.getPrice() == null) {
+            throw new IllegalArgumentException("Price cannot be null");
+        }
+        if (product.getPrice().doubleValue() <= 0) {
+            throw new IllegalArgumentException("Price must be greater than 0");
+        }
     }
 }

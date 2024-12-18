@@ -60,7 +60,7 @@ public class ProductController {
     public String detailProduct(@PathVariable int id, Model model) {
         Product product = productService.getProduct(id);
         model.addAttribute("product", product);
-        return "detail";
+        return "fragment";
     }
 
 }
