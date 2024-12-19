@@ -1,10 +1,20 @@
 package com.example.bai_tap.model;
 
+import javax.persistence.*;
+
+@Entity (name = "product")
 public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", columnDefinition = "INT")
     private Integer id;
+    @Column(name = "name_product", columnDefinition = "NVARCHAR(50)", nullable = false)
     private String name;
+    @Column(name = "price", columnDefinition = "INT", nullable = false)
     private Integer price;
+    @Column(name = "description_product", columnDefinition = "VARCHAR(255)")
     private String description;
+    @Column(name = "supplier", columnDefinition = "VARCHAR(50)", nullable = false)
     private String supplier;
     public Product() {}
     public Product(Integer id, String name, Integer price, String description, String supplier) {

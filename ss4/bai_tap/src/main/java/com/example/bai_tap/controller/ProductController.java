@@ -15,27 +15,26 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class ProductController {
     @Autowired
     private IProductService productService;
-    @GetMapping("/list")
+    @RequestMapping("/product")
+    @GetMapping("")
     public ModelAndView viewProduct(Model model){
         return new ModelAndView("list", "products", productService.getAllProducts());
     }
-    @GetMapping("/update/{id}")
-    public String showUpdateForm(@PathVariable int id, Model model) {
-        Product product = productService.getProduct(id);
-        model.addAttribute("product", product);
-        return "update";
-    }
 
-    @PostMapping("/update/{id}")
-    public String updateProduct(@PathVariable int id, @ModelAttribute("product") Product product,
+    @PostMapping("/{id}/update")
+    public String updateProduct(@PathVariable(name = "id")  int id, @ModelAttribute("product") Product product,
                                 BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return "update";
         }
         product.setId(id);
-        productService.updateProduct(product);
+        boolean isValue= productService.updateProduct(product);
+        if(!isValue){
+            redirectAttributes.addFlashAttribute("error", "Product with id " + id + " does not exists");
+            return "redirect:/product";
+        }
         redirectAttributes.addFlashAttribute("message", "Product updated successfully");
-        return "redirect:/list";
+        return "redirect:/product";
     }
     @PostMapping("/create")
     public String addProduct(@ModelAttribute("product") Product product,
@@ -44,24 +43,21 @@ public class ProductController {
                              Model model){
         if(bindingResult.hasErrors()){
             model.addAttribute("errors", bindingResult.getAllErrors());
-            return "add";
+            return "fragment";
         }
         productService.addProduct(product);
         redirectAttributes.addFlashAttribute("message", "Product added successfully");
-        return "redirect:/list";
+        return "redirect:/product";
     }
-    @GetMapping("/confirm-delete/{id}")
-    public String deleteProduct(@PathVariable("id") int id, RedirectAttributes redirectAttributes) {
-        productService.deleteProduct(id);
+    @GetMapping("/{id}/confirm-delete")
+    public String deleteProduct(@PathVariable(name = "id") int id, RedirectAttributes redirectAttributes) {
+        boolean isValue = productService.deleteProduct(id);
+        if(!isValue){
+            redirectAttributes.addFlashAttribute("error", "Product with id " + id + " does not exists");
+            return "redirect:/product";
+        }
         redirectAttributes.addFlashAttribute("message", "Product deleted successfully");
-        return "redirect:/list";
+        return "redirect:/product";
     }
-    @GetMapping("detail/{id}")
-    public String detailProduct(@PathVariable int id, Model model) {
-        Product product = productService.getProduct(id);
-        model.addAttribute("product", product);
-        return "fragment";
-    }
-
 }
 

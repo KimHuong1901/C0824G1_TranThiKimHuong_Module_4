@@ -3,6 +3,7 @@ package com.example.bai_tap.repository;
 import com.example.bai_tap.model.Product;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityTransaction;
 import java.util.ArrayList;
 import java.util.List;
 @Repository
@@ -16,36 +17,34 @@ public class ProductRepository {
         products.add(new Product(5, "Oppo Reno 3", 9000000, "Normal", "Oppo"));
     }
     public List<Product> getAllProducts() {
+        List<Product> products = BaseRepository.entityManager.createQuery("from product", Product.class).getResultList();
         return products;
     }
     public void addProduct(Product product) {
-        product.setId(products.get(products.size()-1).getId()+1);
-        products.add(product);
+        EntityTransaction transaction = BaseRepository.entityManager.getTransaction();
+        transaction.begin();
+        BaseRepository.entityManager.persist(product);
+        transaction.commit();
     }
     public boolean deleteProduct(int id) {
-        for (int i = 0; i < products.size(); i++) {
-            if (products.get(i).getId() == id) {
-                products.remove(i);
-                return true;
-            }
-        }
-        return false;
+        EntityTransaction transaction = BaseRepository.entityManager.getTransaction();
+        transaction.begin();
+        BaseRepository.entityManager.remove(BaseRepository.entityManager.find(Product.class, id));
+        transaction.commit();
+        return true;
     }
     public boolean updateProduct(Product product) {
-        for (int i = 0; i < products.size(); i++) {
-            if (products.get(i).getId() == product.getId()) {
-                products.set(i, product);
-                return true;
-            }
-        }
-        return false;
+        EntityTransaction transaction = BaseRepository.entityManager.getTransaction();
+        transaction.begin();
+        BaseRepository.entityManager.merge(product);
+        transaction.commit();
+        return true;
     }
     public Product getProductById(int id) {
-        for (Product product : products) {
-            if (product.getId() == id) {
-                return product;
-            }
-        }
-        return null;
+        EntityTransaction transaction = BaseRepository.entityManager.getTransaction();
+        transaction.begin();
+        Product product = BaseRepository.entityManager.find(Product.class, id);
+        transaction.commit();
+        return product;
     }
 }

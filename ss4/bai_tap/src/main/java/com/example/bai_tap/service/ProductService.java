@@ -2,6 +2,7 @@ package com.example.bai_tap.service;
 
 import com.example.bai_tap.model.Product;
 import com.example.bai_tap.repository.ProductRepository;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,6 @@ import java.util.List;
 public class ProductService implements IProductService {
     @Autowired
     private ProductRepository productRepository;
-
     @Override
     public List<Product> getAllProducts() {
         return productRepository.getAllProducts();
@@ -25,12 +25,18 @@ public class ProductService implements IProductService {
 
     @Override
     public boolean deleteProduct(int id) {
+        if(getProduct(id)==null){
+            return false;
+        }
         return productRepository.deleteProduct(id);
     }
 
     @Override
     public boolean updateProduct(Product product) {
         checkValue(product);
+        if(getProduct(product.getId()) == null) {
+            return false;
+        }
         return productRepository.updateProduct(product);
     }
 

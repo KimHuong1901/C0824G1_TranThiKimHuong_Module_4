@@ -33,17 +33,33 @@
             <td class="text-center">
                 <a href="#"
                    class="btn btn-sm btn-primary"
-                   th:attr="data-id=${product.id}"
-                   onclick="updateModal(this)">
+                   th:data-id="${product.id}"
+                   th:data-name="${product.name}"
+                   th:onclick="updateModal(this.getAttribute('data-id'), this.getAttribute('data-name'))">
                     Update
                 </a>
                 <a href="#"
                    class="btn btn-sm btn-danger"
-                   th:attr="data-id=${product.id}"
-                   onclick="deleteModal(this)">
+                   th:data-id="${product.id}"
+                   th:data-name="${product.name}"
+                   th:onclick="deleteModal(this.getAttribute('data-id'), this.getAttribute('data-name'))">
                     Delete
                 </a>
-                <a th:href="@{'/detail/' + ${product.id}}" class="btn btn-sm btn-info">Detail</a>
+                <a href="#"
+                   class="btn btn-sm btn-info"
+                   th:data-id="${product.id}"
+                   th:data-name="${product.name}"
+                   th:data-price="${product.price}"
+                   th:data-description="${product.description}"
+                   th:data-supplier="${product.supplier}"
+                   th:onclick="detailModal(this.getAttribute('data-id'),
+                                            this.getAttribute('data-name'),
+                                            this.getAttribute('data-price'),
+                                            this.getAttribute('data-description'),
+                                            this.getAttribute('data-supplier'),
+                   )">
+                    Detail
+                </a>
             </td>
         </tr>
         </tbody>
@@ -54,23 +70,24 @@
 <div th:replace="fragment :: modal-confirm-update"></div>
 <div th:replace="fragment :: modal-update"></div>
 <div th:replace="fragment :: modal-create"></div>
-<div th:replace="fragment :: modal-deatil"></div>
+<div th:replace="fragment :: modal-detail"></div>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-<script>
-    function deleteModal(element) {
-        let productId = element.getAttribute("data-id");
+<script th:inline="javascript">
+    function deleteModal(productId, productName) {
         document.getElementById("productIdToDelete").innerText = productId;
-        let deleteLink = "/confirm-delete/" + productId;
+        document.getElementById("productNameToDelete").innerText = productName;
+        let deleteLink = productId + "/confirm-delete/" ;
         document.getElementById("deleteButton").setAttribute("href", deleteLink);
         let myModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
         myModal.show();
     }
 </script>
-<script>
-    function updateModal(element) {
-        let productId = element.getAttribute("data-id");
-        document.getElementById("updateProductModalLabel").innerText = "Update Product ID: " + productId;
-        let updateLink = "/update/" + productId;
+<script th:inline="javascript">
+    function updateModal(productId, productName){
+        document.getElementById("productIdToUpdate").inertText = productId;
+        document.getElementById("productNameToUpdate").innerText = productName;
+        document.getElementById("updateProductModalLabel").innerText = "Update Product "+ productName + " with - ID: " + productId;
+        let updateLink =  productId + "/update" ;
         let form = document.querySelector('#updateProductModal form');
         form.setAttribute("action", updateLink);
 
@@ -78,11 +95,22 @@
         myModal.show();
     }
 </script>
+<script>
+    function detailModal(id, name, price, description, supplier) {
+        document.getElementById("productId").innerText = id;
+        document.getElementById("productN").innerText = name;
+        document.getElementById("productPr").innerText = price;
+        document.getElementById("productDescrip").innerText = description;
+        document.getElementById("productSup").innerText = supplier;
+        let myModal = new bootstrap.Modal(document.getElementById('productDetailModal'));
+        myModal.show();
+    }
+</script>
 <div th:if="${message != null}">
-    <p style="color:green;" th:text="${message}"></p>
+   <strong><p style="color:green;" th:text="${message}"></p></strong>
 </div>
 <div th:if="${error != null}">
-    <p style="color:red;" text="'Result: ' + ${error}"></p>
+    <strong> <p style="color:red;" th:text= "${error}"></p></strong>
 </div>
 </body>
 </html>
