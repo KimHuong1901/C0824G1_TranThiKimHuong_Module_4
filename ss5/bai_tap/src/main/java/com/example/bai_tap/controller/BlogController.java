@@ -66,7 +66,7 @@ public class BlogController {
         redirectAttributes.addFlashAttribute("message", "Blog deleted successfully");
         return "redirect:/blog";
     }
-    @GetMapping("/{id}/detail")
+    @GetMapping("/{id}")
     public String viewDetail(@PathVariable("id") int id, Model model) {
         Blog blog = blogService.getBlogById(id);
         model.addAttribute("blog", blog);

@@ -28,7 +28,7 @@
             <td>
                 <a th:href="@{/blog/{id}/show-update(id=${blog.id})}" class="btn btn-warning btn-sm me-2">Update</a>
                 <a class ="btn btn-danger btn-sm me-2" th:onclick="isDelete([[${blog.id}]], [[${blog.title}]])">Delete</a>
-                <a th:href="@{/blog/{id}/detail(id=${blog.id})}" class="btn btn-info btn-sm">Detail</a>
+                <a th:href="@{/blog/{id}(id=${blog.id})}" class="btn btn-info btn-sm">Detail</a>
             </td>
         </tr>
         </tbody>
