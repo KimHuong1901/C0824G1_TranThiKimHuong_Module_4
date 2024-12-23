@@ -27,6 +27,15 @@
             <input type="text" class="form-control" id="author" name="author" th:value="${blog.author}"
                     required>
         </div>
+        <div class="mb-3">
+            <label for="category" class="form-label">Category</label>
+            <select class="form-select" id="category" name="category" required>
+                <option value="">Select a category</option>
+                <th:block th:each="category : ${categories}">
+                    <option th:value="${category.id}" th:text="${category.name}"></option>
+                </th:block>
+            </select>
+        </div>
         <div class="d-grid">
             <button type="submit" class="btn btn-primary">Update</button>
         </div>

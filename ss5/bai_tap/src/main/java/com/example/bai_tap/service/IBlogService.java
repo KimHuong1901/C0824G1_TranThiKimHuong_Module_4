@@ -1,13 +1,11 @@
 package com.example.bai_tap.service;
 
 import com.example.bai_tap.model.Blog;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
-public interface IBlogService {
-    void addNewBlog(Blog blog);
-    void updateBlog(int id, Blog blog);
-    List<Blog> getAllBlogs();
-    Blog getBlogById(int id);
-    void deleteBlogById(int id);
-    Blog findBlogById(int id);
+public interface IBlogService extends IBaseService<Blog> {
+    Page<Blog> findByTitle(String title, Integer page);
+    List<Blog> findAllSortedByTime();
+    List<Blog> findAllByCategory(String category);
 }

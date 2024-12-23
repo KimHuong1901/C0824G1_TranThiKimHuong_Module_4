@@ -24,6 +24,11 @@
                 <br>
                 <span th:text="${blog.content}">Blog Content</span>
             </p>
+            <p class="card-text">
+                <strong>Category:</strong>
+                <br>
+                <span th:text="${category.name}">Category</span>
+            </p>
         </div>
         <div class="card-footer text-end">
             <a th:href="@{/blog/list}" class="btn btn-secondary">Back to List</a>
