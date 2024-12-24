@@ -50,6 +50,14 @@
     </div>
 </div>
 </div>
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item" th:if="${blogs.hasPrevious()}">
+            <a class="page-link" th:href="@{/blog(page=${blogs.number-1}, name=${title})}">Previous</a></li>
+        <li class="page-item" th:if="${blogs.hasNext()}">
+        <a class="page-link" th:href="@{/blog(page=${blogs.number+1}, name=${title})}">Next</a></li>
+    </ul>
+</nav>
 <script>
     function isDelete(id, title){
         let isConfirm = confirm("Are you want to delete blog with " + "title is: " + title);
