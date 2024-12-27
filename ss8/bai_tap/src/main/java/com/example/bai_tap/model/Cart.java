@@ -1,4 +1,5 @@
 package com.example.bai_tap.model;
+import com.example.bai_tap.model.Product;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -21,14 +22,26 @@ public class Cart {
     public void setProducts(Map<Product, Integer> products) {
         this.products = products;
     }
+
     public int countItemQuantity() {
-        return 0;
+        return products.values().stream().mapToInt(Integer::intValue).sum();
     }
+
     public int countProductQuantity() {
-        return 0;
+        return products.size();
     }
+
+
     public BigDecimal countTotalPayment() {
-        BigDecimal totalPayment = BigDecimal.valueOf(1000);
+        BigDecimal totalPayment = BigDecimal.ZERO;
+
+        for (Map.Entry<Product, Integer> entry : products.entrySet()) {
+            Product product = entry.getKey();
+            Integer quantity = entry.getValue();
+            BigDecimal price = BigDecimal.valueOf(product.getPrice());
+            totalPayment = totalPayment.add(price.multiply(BigDecimal.valueOf(quantity)));
+        }
+
         return totalPayment;
     }
 }
