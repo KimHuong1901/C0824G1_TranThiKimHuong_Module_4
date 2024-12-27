@@ -53,14 +53,14 @@ public class ShoppingController {
         mav.addObject("quantity", cart.getProducts().get(productOptional.get()));
         return mav;
     }
-    @PostMapping("/checkout")
+    @PostMapping("/delete")
     public String checkout(@ModelAttribute("cart") Cart cart, RedirectAttributes redirectAttributes) {
         if (cart.getProducts().isEmpty()) {
             redirectAttributes.addFlashAttribute("message", "Cart is empty.");
             return "redirect:/shopping_cart";
         }
         cart.getProducts().clear();
-        redirectAttributes.addFlashAttribute("message", "Checkout successful!");
+        redirectAttributes.addFlashAttribute("message", "Delete successful!");
         return "redirect:/shop";
     }
 
