@@ -59,7 +59,7 @@ public class BlogService implements IBlogService {
     }
 
     @Override
-    public List<Blog> findAllByCategory(String category) {
-        return blogRepository.findAllByCategoryContainingIgnoreCase(category);
+    public Page<Blog> findAllByCategory(String category, Integer page) {
+        return blogRepository.findAllByCategory_NameContainingIgnoreCase(category, PageRequest.of(page, 10));
     }
 }

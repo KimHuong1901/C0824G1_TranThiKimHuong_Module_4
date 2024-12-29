@@ -7,5 +7,5 @@ import java.util.List;
 public interface IBlogService extends IBaseService<Blog> {
     Page<Blog> findByTitle(String title, Integer page);
     List<Blog> findAllSortedByTime();
-    List<Blog> findAllByCategory(String category);
+    Page<Blog> findAllByCategory(String category, Integer page);
 }

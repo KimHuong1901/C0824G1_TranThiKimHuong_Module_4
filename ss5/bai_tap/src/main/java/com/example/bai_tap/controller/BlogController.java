@@ -6,6 +6,7 @@ import com.example.bai_tap.service.IBlogService;
 import com.example.bai_tap.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,7 +34,7 @@ public class BlogController {
     }
     @GetMapping("/search")
     public String searchByCategory(@RequestParam("categoryName") String categoryName, Model model){
-        List<Blog> blogs = blogService.findAllByCategory(categoryName);
+        Page<Blog> blogs = blogService.findAllByCategory(categoryName, 0);
         model.addAttribute("blogs", blogs);
         return "blog/list";
     }

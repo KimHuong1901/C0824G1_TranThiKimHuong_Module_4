@@ -5,6 +5,8 @@ import com.example.bai_tap.model.Category;
 import com.example.bai_tap.repository.CategoryRepository;
 import com.example.bai_tap.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,5 +48,10 @@ public class CategoryService implements ICategoryService {
     @Override
     public Category findById(int id) {
         return categoryRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public Page<Category> findByName(String name, Integer page) {
+        return categoryRepository.findAllByNameContainingIgnoreCase(name, PageRequest.of(page, 10));
     }
 }
