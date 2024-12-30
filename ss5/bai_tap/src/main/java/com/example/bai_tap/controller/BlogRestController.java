@@ -18,6 +18,7 @@ import java.util.NoSuchElementException;
 
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/api/blog")
 public class BlogRestController {
     @Autowired
