@@ -10,6 +10,6 @@ import org.springframework.data.repository.query.Param;
 
 
 public interface BlogRepository extends JpaRepository<Blog, Integer> {
-            Page<Blog> findAllByCategory_NameContainingIgnoreCase(String title, Pageable pageable);
+            Page<Blog> findByCategory_NameContainingIgnoreCase(String title, Pageable pageable);
             Page<Blog> findAllByTitleContainingIgnoreCase(String title, Pageable pageable);
 }
