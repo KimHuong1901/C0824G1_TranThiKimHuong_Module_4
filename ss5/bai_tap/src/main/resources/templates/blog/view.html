@@ -25,14 +25,14 @@
                     tableBody.innerHTML = "";
                 }
                 if (data.content && data.content.length > 0) {
-                    data.content.forEach((item, index) => {
+                    data.content.forEach((blog, index) => {
                         const row = document.createElement("tr");
                         row.innerHTML = `
                             <td>${index + 1 + page * data.size}</td>
-                            <td>${item.id}</td>
-                            <td>${item.title}</td>
-                            <td>${item.author}</td>
-                            <td>${item.time}</td>
+                            <td>${blog.id}</td>
+                            <td>${blog.title}</td>
+                            <td>${blog.author}</td>
+                            <td>${blog.time}</td>
                             <td><button class="btn btn-danger btn-sm">Delete</button></td>
                         `;
                         tableBody.appendChild(row);
