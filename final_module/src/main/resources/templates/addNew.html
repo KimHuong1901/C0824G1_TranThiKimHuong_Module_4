@@ -19,24 +19,24 @@
         <div class="mb-3">
             <label for="timeStart" class="form-label">Time Start</label>
             <input type="date" id="timeStart" th:field="*{timeStart}" class="form-control" required>
-            <div class="text-danger" th:if="${#fields.hasErrors('timeStart')}" th:errors="*{timeStart}"></div>
+            <div class="text-danger" th:if="${#fields.hasErrors('timeStart')}" th:error="*{timeStart}"></div>
         </div>
         <div class="mb-3">
             <label for="timeEnd" class="form-label">Time End</label>
             <input type="date" id="timeEnd" th:field="*{timeEnd}" class="form-control" required>
-            <div class="text-danger" th:if="${#fields.hasErrors('timeEnd')}" th:errors="*{timeEnd}"></div>
+            <div class="text-danger" th:if="${#fields.hasErrors('timeEnd')}" th:error="*{timeEnd}"></div>
         </div>
 
         <div class="mb-3">
             <label for="priceDiscount" class="form-label">Price Discount (VND)</label>
             <input type="number" step="1000" id="priceDiscount" th:field="*{priceDiscount}" class="form-control" required>
-            <div class="text-danger" th:if="${#fields.hasErrors('priceDiscount')}" th:errors="*{priceDiscount}"></div>
+            <div class="text-danger" th:if="${#fields.hasErrors('priceDiscount')}" th:error="*{priceDiscount}"></div>
         </div>
 
         <div class="mb-3">
             <label for="description" class="form-label">Description</label>
             <textarea id="description" th:field="*{description}" class="form-control" rows="3" required></textarea>
-            <div class="text-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+            <div class="text-danger" th:if="${#fields.hasErrors('description')}" th:error   ="*{description}"></div>
         </div>
 
         <div class="text-center">
