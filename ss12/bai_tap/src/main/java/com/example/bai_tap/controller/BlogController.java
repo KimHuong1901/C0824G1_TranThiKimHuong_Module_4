@@ -10,7 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -39,16 +38,16 @@ public class BlogController {
         model.addAttribute("blogs", blogs);
         return "blog/list";
     }
-        @GetMapping("/show-add")
+    @GetMapping("/show-add")
     public String showAddBlogForm(Model model) {
         model.addAttribute("blog", new Blog());
         model.addAttribute("categories", categoryService.getAll());
         return "blog/add";
     }
     @PostMapping("/add")
-    public String addBlog(@Validated @ModelAttribute("blog") Blog blog,
-                          BindingResult bindingResult,
-                          RedirectAttributes redirectAttributes,
+    public String addBlog(@ModelAttribute("blog") Blog blog,
+                            BindingResult bindingResult,
+                            RedirectAttributes redirectAttributes,
                           Model model){
         if(bindingResult.hasErrors()){
             model.addAttribute("error",bindingResult.getAllErrors());
@@ -74,7 +73,7 @@ public class BlogController {
         }
     }
     @PostMapping("/{id}/update")
-    public String updateBlog(@Validated @PathVariable("id") int id, @ModelAttribute("blog") Blog blog,
+    public String updateBlog(@PathVariable("id") int id, @ModelAttribute("blog") Blog blog,
                              BindingResult bindingResult,
                              RedirectAttributes redirectAttributes,
                              Model model){

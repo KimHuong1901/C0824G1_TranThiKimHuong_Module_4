@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chuyển đổi VND sang USD</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="p-5">
+<div class="container">
+  <h2 class="mb-4">Chuyển đổi từ VND sang USD</h2>
+  <form id="convertForm" class="mb-4">
+    <div class="mb-3">
+      <label for="vndAmount" class="form-label">Số tiền (VND):</label>
+      <input type="number" id="vndAmount" class="form-control" placeholder="Nhập số tiền VND" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Chuyển đổi</button>
+  </form>
+  <h4 id="result" class="text-success"></h4>
+</div>
+
+<script>
+  document.getElementById('convertForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const vndAmount = parseFloat(document.getElementById('vndAmount').value);
+    if (!vndAmount || vndAmount <= 0) {
+      alert('Vui lòng nhập số tiền hợp lệ.');
+      return;
+    }
+    try {
+      // Sử dụng API của ExchangeRate-API
+      const response = await fetch('https://open.er-api.com/v6/latest/USD');
+      const data = await response.json();
+
+      if (data && data.rates && data.rates.VND) {
+        const exchangeRate = data.rates.VND;
+        const convertedAmount = vndAmount / exchangeRate;
+
+        document.getElementById('result').textContent =
+                `${vndAmount.toLocaleString('vi-VN')} VND = ${convertedAmount}`;
+      } else {
+        alert('Không thể lấy tỷ giá từ API.');
+      }
+    } catch (error) {
+      console.error('Lỗi khi gọi API:', error);
+      alert('Đã xảy ra lỗi khi gọi API.');
+    }
+  });
+</script>
+</body>
+</html>

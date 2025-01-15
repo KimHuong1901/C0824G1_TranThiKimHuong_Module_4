@@ -10,7 +10,7 @@
 <div class="container mt-5">
     <h1 class="mb-4 text-danger">PRODUCT LIST</h1>
     <p>
-        <a href="/shopping_cart" class="btn btn-primary">Your Cart</a>
+        <a href="/shopping_cart" class="btn btn-primary" style="background-color: #b61f14">Your Cart</a>
         <a href="/shop/show-add" class="btn btn-secondary">Add Product</a>
     </p>
     <div class="row row-cols-1 row-cols-md-4 g-4">
@@ -35,6 +35,7 @@
             </div>
         </th:block>
     </div>
+
 </div>
 <div th:if="${message != null}">
     <strong><p style="color:green;" th:text="${message}"></p></strong>

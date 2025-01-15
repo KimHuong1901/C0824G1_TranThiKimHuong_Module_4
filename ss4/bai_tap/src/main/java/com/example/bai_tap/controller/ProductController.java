@@ -20,7 +20,6 @@ public class ProductController {
     public ModelAndView viewProduct(Model model){
         return new ModelAndView("list", "products", productService.getAllProducts());
     }
-
     @PostMapping("/{id}/update")
     public String updateProduct(@PathVariable(name = "id")  int id, @ModelAttribute("product") Product product,
                                 BindingResult bindingResult, RedirectAttributes redirectAttributes) {
